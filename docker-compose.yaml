@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+
+  frontend:
+    container_name: frontend-${PROJECT}
+    image: ${PROJECT}-frontend:${NODE_VERSION}
+    env_file:
+      - .env
+    build:
+      context: ./.docker/Node/${NODE_VERSION}
+    user: ${FIXUID:-1000}:${FIXGID:-1000}
+    restart: on-failure
+    volumes:
+      - ${PWD}:/app
+    ports:
+      - "${FRONTEND_SERVER_PORT_EXTERNAL}:3000"
+    working_dir: "/app"
+    command: npm run install-and-start
