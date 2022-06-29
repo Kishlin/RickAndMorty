@@ -4,17 +4,21 @@ import { defineComponent } from "vue";
 import type { CharacterShort } from "src/interfaces";
 import CharacterCardSmall from "./characters/CharacterCardSmall.vue";
 import PaginationNav from "./shared/PaginationNav.vue";
+import SearchBar from "../components/shared/SearchBar.vue";
 
 export default defineComponent({
   data() {
     return {
+      filter: "",
       currentPage: 0,
       shownPerPage: 20,
+      filteredCharacters: this.characters,
     };
   },
   components: {
     CharacterCardSmall,
     PaginationNav,
+    SearchBar,
   },
   props: {
     characters: {
@@ -24,17 +28,30 @@ export default defineComponent({
   },
   computed: {
     maxPage(): number {
-      return Math.ceil(this.characters.length / this.shownPerPage);
+      return Math.ceil(this.filteredCharacters.length / this.shownPerPage);
     },
     charactersToDisplay(): CharacterShort[] {
       const startIndex = this.shownPerPage * this.currentPage;
 
-      return this.characters.slice(startIndex, startIndex + this.shownPerPage);
+      return this.filteredCharacters.slice(
+        startIndex,
+        startIndex + this.shownPerPage
+      );
     },
   },
   methods: {
     moveToPage(page: number): void {
       this.currentPage = Math.min(page, this.maxPage);
+    },
+    updateFilter(newFilter: string) {
+      this.filteredCharacters = this.characters.filter((character) =>
+        character.name
+          .toLocaleLowerCase()
+          .includes(newFilter.toLocaleLowerCase())
+      );
+
+      this.filter = newFilter;
+      this.currentPage = 0;
     },
   },
 });
@@ -42,9 +59,14 @@ export default defineComponent({
 
 <template>
   <div>
+    <SearchBar
+      :filter="filter"
+      placeholder="Search..."
+      :update-filter="updateFilter"
+    />
     <PaginationNav
       :pages="maxPage"
-      :current-page="currentPage"
+      :current-page="Math.min(currentPage, maxPage - 1)"
       :move-to-page="moveToPage"
     />
     <div class="characters">
