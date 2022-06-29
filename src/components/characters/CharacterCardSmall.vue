@@ -14,5 +14,25 @@ export default defineComponent({
 </script>
 
 <template>
-  <p>{{ character.name }}</p>
+  <div>
+    <img :alt="character.name" :src="character.image" />
+    <p>{{ character.name }}</p>
+  </div>
 </template>
+
+<style scoped>
+div {
+  margin: 5px;
+}
+
+div,
+img {
+  width: 150px;
+}
+
+p {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+</style>
