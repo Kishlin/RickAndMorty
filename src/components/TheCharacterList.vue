@@ -67,27 +67,37 @@ export default defineComponent({
 
 <template>
   <div>
-    <SearchBar v-model="filter" placeholder="Search..." />
-    <CharacterStatusFilter
-      :dead="showDead"
-      :alive="showAlive"
-      :unknown="showUnknown"
-      @toggleDead="() => (this.showDead = !showDead)"
-      @toggleAlive="() => (this.showAlive = !showAlive)"
-      @toggleUnknown="() => (this.showUnknown = !showUnknown)"
-    />
-    <PaginationNav
-      :pages="maxPage"
-      :current-page="Math.min(currentPage, maxPage - 1)"
-      :move-to-page="moveToPage"
-    />
-    <div class="characters">
-      <CharacterCardSmall
-        v-for="character in charactersToDisplay"
-        :character="character"
-        :key="character.id"
+    <section>
+      <SearchBar v-model="filter" placeholder="Search..." />
+      <CharacterStatusFilter
+        :dead="showDead"
+        :alive="showAlive"
+        :unknown="showUnknown"
+        @toggleDead="() => (this.showDead = !showDead)"
+        @toggleAlive="() => (this.showAlive = !showAlive)"
+        @toggleUnknown="() => (this.showUnknown = !showUnknown)"
       />
-    </div>
+    </section>
+    <section v-if="0 === filteredCharacters.length">
+      <p class="message">
+        No character to display. Try to play with the filters.
+      </p>
+    </section>
+    <section v-else>
+      <PaginationNav
+        v-if="1 !== maxPage"
+        :pages="maxPage"
+        :current-page="Math.min(currentPage, maxPage - 1)"
+        :move-to-page="moveToPage"
+      />
+      <div class="characters">
+        <CharacterCardSmall
+          v-for="character in charactersToDisplay"
+          :character="character"
+          :key="character.id"
+        />
+      </div>
+    </section>
   </div>
 </template>
 
@@ -97,5 +107,10 @@ export default defineComponent({
   flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.message {
+  margin-top: 10px;
+  text-align: center;
 }
 </style>

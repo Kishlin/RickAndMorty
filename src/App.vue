@@ -53,7 +53,7 @@ export default defineComponent({
 }
 
 #page {
-  max-width: 80%;
+  width: 80%;
   margin: 0 auto;
   padding: 2rem;
 
