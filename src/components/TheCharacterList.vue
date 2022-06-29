@@ -72,9 +72,9 @@ export default defineComponent({
       :dead="showDead"
       :alive="showAlive"
       :unknown="showUnknown"
-      :toggle-dead="() => (this.showDead = !showDead)"
-      :toggle-alive="() => (this.showAlive = !showAlive)"
-      :toggle-unknown="() => (this.showUnknown = !showUnknown)"
+      @toggleDead="() => (this.showDead = !showDead)"
+      @toggleAlive="() => (this.showAlive = !showAlive)"
+      @toggleUnknown="() => (this.showUnknown = !showUnknown)"
     />
     <PaginationNav
       :pages="maxPage"

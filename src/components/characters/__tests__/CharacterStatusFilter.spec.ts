@@ -7,12 +7,9 @@ describe("CharacterStatusFilter", () => {
   it("shows the checkboxes", () => {
     const wrapper = mount(CharacterStatusFilter, {
       props: {
-        alive: true,
         dead: true,
-        unknown: true,
-        toggleDead: () => null,
-        toggleAlive: () => null,
-        toggleUnknown: () => null,
+        alive: true,
+        unknown: false,
       },
     });
 

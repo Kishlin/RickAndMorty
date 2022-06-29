@@ -15,18 +15,6 @@ export default defineComponent({
       required: true,
       type: Boolean,
     },
-    toggleAlive: {
-      required: true,
-      types: Function,
-    },
-    toggleDead: {
-      required: true,
-      types: Function,
-    },
-    toggleUnknown: {
-      required: true,
-      types: Function,
-    },
   },
 });
 </script>
@@ -37,7 +25,7 @@ export default defineComponent({
       type="checkbox"
       :checked="alive"
       id="checkbox-alive"
-      @change="toggleAlive"
+      @change="$emit('toggleAlive')"
     />
     <label for="checkbox-alive">Alive</label>
 
@@ -45,7 +33,7 @@ export default defineComponent({
       type="checkbox"
       :checked="dead"
       id="checkbox-dead"
-      @change="toggleDead"
+      @change="$emit('toggleDead')"
     />
     <label for="checkbox-dead">Dead</label>
 
@@ -53,8 +41,19 @@ export default defineComponent({
       type="checkbox"
       :checked="unknown"
       id="checkbox-unknown"
-      @change="toggleUnknown"
+      @change="$emit('toggleUnknown')"
     />
     <label for="checkbox-unknown">Unknown</label>
   </div>
 </template>
+
+<style scoped>
+div {
+  margin: 10px 0 5px;
+  line-height: 15px;
+}
+
+input[type="checkbox"] {
+  margin: 0 0.4em;
+}
+</style>
