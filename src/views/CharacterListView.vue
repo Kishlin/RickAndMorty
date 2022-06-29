@@ -19,7 +19,7 @@ export default defineComponent({
 
 <template>
   <section>
-    <p>Characters: {{ Object.keys(characters).length }}</p>
+    <p>Characters: {{ characters.length }}</p>
     <TheCharacterList :characters="characters" />
   </section>
 </template>

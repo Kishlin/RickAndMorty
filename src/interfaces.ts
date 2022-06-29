@@ -26,7 +26,3 @@ export interface CharacterShort {
   url: string;
   created: string;
 }
-
-export type CharacterShortListAsObject = {
-  [key: number]: CharacterShort;
-};

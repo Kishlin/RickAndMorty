@@ -6,19 +6,11 @@ import { RouterView } from "vue-router";
 import { store } from "./store";
 import { defineComponent } from "vue";
 
-import type { CharacterShort } from "src/interfaces";
-
-const populateStoreWithCharacters = (charactersList: CharacterShort[]) => {
-  charactersList.forEach(
-    (character: CharacterShort) => (store.characters[character.id] = character)
-  );
-};
-
 const loadCharacters = (url: string) => {
   fetch(url)
     .then((response) => response.json())
     .then((out) => {
-      populateStoreWithCharacters(out.results);
+      store.characters.push(...out.results);
 
       const nextPageUrl = out.info.next;
 
