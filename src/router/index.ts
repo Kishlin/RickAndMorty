@@ -11,6 +11,10 @@ const router = createRouter({
       path: "/characters",
       component: () => import("../views/CharacterListView.vue"),
     },
+    {
+      path: "/character/:id",
+      component: () => import("../views/CharacterView.vue"),
+    },
   ],
 });
 

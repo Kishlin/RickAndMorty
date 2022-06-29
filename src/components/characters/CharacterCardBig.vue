@@ -14,7 +14,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <div @click="$router.push(`/character/${character.id}`)">
+  <div>
     <img :alt="character.name" :src="character.image" />
     <p>{{ character.name }}</p>
   </div>
@@ -23,7 +23,6 @@ export default defineComponent({
 <style scoped>
 div {
   margin: 5px;
-  cursor: pointer;
 }
 
 div,
