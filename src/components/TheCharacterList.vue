@@ -61,20 +61,13 @@ export default defineComponent({
     moveToPage(page: number): void {
       this.requestedPage = Math.min(page, this.maxPage);
     },
-    updateFilter(newFilter: string) {
-      this.filter = newFilter;
-    },
   },
 });
 </script>
 
 <template>
   <div>
-    <SearchBar
-      :filter="filter"
-      placeholder="Search..."
-      :update-filter="updateFilter"
-    />
+    <SearchBar v-model="filter" placeholder="Search..." />
     <CharacterStatusFilter
       :dead="showDead"
       :alive="showAlive"

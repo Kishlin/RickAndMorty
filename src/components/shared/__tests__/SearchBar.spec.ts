@@ -7,8 +7,7 @@ describe("SearchBar", () => {
   it("writes the filter in the search bar", () => {
     const wrapper = mount(SearchBar, {
       props: {
-        filter: "current",
-        updateFilter: () => null,
+        modelValue: "current",
       },
     });
 

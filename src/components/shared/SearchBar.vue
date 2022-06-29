@@ -6,23 +6,24 @@ export default defineComponent({
     placeholder: {
       type: String,
     },
-    filter: {
+    modelValue: {
       required: true,
       type: String,
     },
-    updateFilter: {
-      required: true,
-      type: Function,
+  },
+  computed: {
+    inputVal: {
+      get() {
+        return this.modelValue;
+      },
+      set(val: string) {
+        this.$emit("update:modelValue", val);
+      },
     },
   },
 });
 </script>
 
 <template>
-  <input
-    type="text"
-    :value="filter"
-    :placeholder="placeholder"
-    @change="(e) => updateFilter(e.target.value)"
-  />
+  <input type="text" v-model="inputVal" :placeholder="placeholder" />
 </template>
