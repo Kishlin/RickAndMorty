@@ -35,11 +35,8 @@ stop:
 tests:
 	@docker-compose exec frontend npm run test:unit
 
-build:
-	@docker-compose exec npm run build
-
 lint:
-	@docker-compose exec npm run lint
+	@docker-compose exec frontend npm run lint
 
 help:
 	@echo "Run make start"

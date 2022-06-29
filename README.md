@@ -22,12 +22,6 @@ sed -i -E 's/(FIXGID)=.*/\1=1002/g' .env
 make start
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-make build
-```
-
 ### Run Unit Tests with [Vitest](https://vitest.dev/)
 
 ```sh
