@@ -45,7 +45,7 @@ export default defineComponent({
         startIndex + this.shownPerPage
       );
     },
-    filteredCharacters() {
+    filteredCharacters(): CharacterShort[] {
       return this.characters.filter(
         (character) =>
           character.name
