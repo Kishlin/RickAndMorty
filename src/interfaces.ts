@@ -2,6 +2,25 @@ export type CharacterStatus = "unknown" | "Alive" | "Dead";
 
 export type CharacterGender = "Female" | "Male" | "Genderless" | "unknown";
 
+export interface Location {
+  name: string;
+  type: string;
+  dimension: string;
+}
+
+export interface Episode {
+  name: string;
+  episode: string;
+}
+
+export type LocationListAsObject = {
+  [key: number]: Location;
+};
+
+export type EpisodeListAsObject = {
+  [key: number]: Episode;
+};
+
 export interface CharacterOrigin {
   name: string;
   url: string;
