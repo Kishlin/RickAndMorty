@@ -5,26 +5,22 @@ import { RouterView } from "vue-router";
 <script lang="ts">
 import { store } from "./store";
 import { defineComponent } from "vue";
+import type { CharactersResponse } from "./api";
+import { loadCharacters, charactersFirstPageUrl } from "./api";
 
-const loadCharacters = (url: string) => {
-  fetch(url)
-    .then((response) => response.json())
-    .then((out) => {
-      store.characters.push(...out.results);
+const onCharactersResponse = (out: CharactersResponse) => {
+  store.characters.push(...out.results);
 
-      const nextPageUrl = out.info.next;
+  const nextPageUrl = out.info.next;
 
-      if (null !== nextPageUrl) {
-        loadCharacters(nextPageUrl);
-      }
-    });
+  if (null !== nextPageUrl) {
+    loadCharacters(nextPageUrl, onCharactersResponse);
+  }
 };
-
-const firstPageUrl = "https://rickandmortyapi.com/api/character/";
 
 export default defineComponent({
   mounted() {
-    loadCharacters(firstPageUrl);
+    loadCharacters(charactersFirstPageUrl, onCharactersResponse);
   },
 });
 </script>

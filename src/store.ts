@@ -1,5 +1,8 @@
 import { reactive } from "vue";
 
+import { fetchLocation, fetchEpisode } from "./api";
+import type { APILocationResponse, APIEpisodeResponse } from "./api";
+
 import type {
   CharacterShort,
   Episode,
@@ -17,34 +20,26 @@ declare type appStore = {
   characterWithId: (id: number) => CharacterShort | undefined;
 };
 
-const fetchLocation = (id: number) => {
-  fetch(`https://rickandmortyapi.com/api/location/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (undefined === data.error) {
-        const { name, type, dimension } = data;
+const fillLocationOnResponse = (data: APILocationResponse) => {
+  if (undefined === data.error) {
+    const { id, name, type, dimension } = data;
 
-        store.locations = {
-          [id]: { name, type, dimension },
-          ...store.locations,
-        };
-      }
-    });
+    store.locations = {
+      [id]: { name, type, dimension },
+      ...store.locations,
+    };
+  }
 };
 
-const fetchEpisode = (id: number) => {
-  fetch(`https://rickandmortyapi.com/api/episode/${id}`)
-    .then((response) => response.json())
-    .then((data) => {
-      if (undefined === data.error) {
-        const { name, episode } = data;
+const fillEpisodeOnResponse = (data: APIEpisodeResponse) => {
+  if (undefined === data.error) {
+    const { id, name, episode } = data;
 
-        store.episodes = {
-          [id]: { name, episode },
-          ...store.episodes,
-        };
-      }
-    });
+    store.episodes = {
+      [id]: { name, episode },
+      ...store.episodes,
+    };
+  }
 };
 
 export const store: appStore = reactive({
@@ -58,14 +53,14 @@ export const store: appStore = reactive({
   },
   locationWithId: (id: number) => {
     if (undefined === store.locations[id]) {
-      fetchLocation(id);
+      fetchLocation(id, fillLocationOnResponse);
     }
 
     return store.locations[id];
   },
   episodeWithId: (id: number) => {
     if (undefined === store.episodes[id]) {
-      fetchEpisode(id);
+      fetchEpisode(id, fillEpisodeOnResponse);
     }
 
     return store.episodes[id];
