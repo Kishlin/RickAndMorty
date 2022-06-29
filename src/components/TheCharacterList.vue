@@ -3,6 +3,7 @@ import { defineComponent } from "vue";
 
 import type { CharacterShort } from "src/interfaces";
 import CharacterCardSmall from "./characters/CharacterCardSmall.vue";
+import CharacterStatusFilter from "../components/characters/CharacterStatusFilter.vue";
 import PaginationNav from "./shared/PaginationNav.vue";
 import SearchBar from "../components/shared/SearchBar.vue";
 
@@ -10,12 +11,15 @@ export default defineComponent({
   data() {
     return {
       filter: "",
-      currentPage: 0,
+      showDead: true,
+      showAlive: true,
+      showUnknown: true,
       shownPerPage: 20,
-      filteredCharacters: this.characters,
+      requestedPage: 0,
     };
   },
   components: {
+    CharacterStatusFilter,
     CharacterCardSmall,
     PaginationNav,
     SearchBar,
@@ -27,6 +31,9 @@ export default defineComponent({
     },
   },
   computed: {
+    currentPage(): number {
+      return Math.min(this.requestedPage, this.maxPage - 1);
+    },
     maxPage(): number {
       return Math.ceil(this.filteredCharacters.length / this.shownPerPage);
     },
@@ -38,20 +45,24 @@ export default defineComponent({
         startIndex + this.shownPerPage
       );
     },
+    filteredCharacters() {
+      return this.characters.filter(
+        (character) =>
+          character.name
+            .toLocaleLowerCase()
+            .includes(this.filter.toLocaleLowerCase()) &&
+          (("Alive" === character.status && this.showAlive) ||
+            ("Dead" === character.status && this.showDead) ||
+            ("unknown" === character.status && this.showUnknown))
+      );
+    },
   },
   methods: {
     moveToPage(page: number): void {
-      this.currentPage = Math.min(page, this.maxPage);
+      this.requestedPage = Math.min(page, this.maxPage);
     },
     updateFilter(newFilter: string) {
-      this.filteredCharacters = this.characters.filter((character) =>
-        character.name
-          .toLocaleLowerCase()
-          .includes(newFilter.toLocaleLowerCase())
-      );
-
       this.filter = newFilter;
-      this.currentPage = 0;
     },
   },
 });
@@ -63,6 +74,14 @@ export default defineComponent({
       :filter="filter"
       placeholder="Search..."
       :update-filter="updateFilter"
+    />
+    <CharacterStatusFilter
+      :dead="showDead"
+      :alive="showAlive"
+      :unknown="showUnknown"
+      :toggle-dead="() => (this.showDead = !showDead)"
+      :toggle-alive="() => (this.showAlive = !showAlive)"
+      :toggle-unknown="() => (this.showUnknown = !showUnknown)"
     />
     <PaginationNav
       :pages="maxPage"
